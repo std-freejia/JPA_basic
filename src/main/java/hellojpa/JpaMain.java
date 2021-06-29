@@ -21,14 +21,10 @@ public class JpaMain {
             // em : 컬렉션이라고 여겨도 된다.
 
             // find() 클래스의 식별자를 주면, 조회
-            Member findMember = em.find(Member.class, 1L);
+            Member findMember = em.find(Member.class, 2L);
 
-            System.out.println("findMember.id = " + findMember.getId());
-            System.out.println("findMember.name = " + findMember.getName());
-
-            // remove() 객체를 넘기면 삭제
-            em.remove(findMember);
-
+            // 객체의 setter를 사용하기만 했는데 수정 !!
+            findMember.setName("HelloJPA");
             tx.commit();
 
         }catch(Exception e){
