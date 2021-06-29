@@ -19,12 +19,8 @@ public class JpaMain {
         tx.begin();
 
         try{
-            // 비영속 상태인 객체 생성
-            Member member1 = new Member(150L, "A");
-            Member member2 = new Member(160L, "B");
-
-            em.persist(member1);
-            em.persist(member2); // 영속성 컨텍스트에 쌓이는 객체
+            Member findMember = em.find(Member.class, 150L);
+            findMember.setName("ZZZZZ");
 
             System.out.println("==========");
             tx.commit(); // DB에 insert SQL 실행
