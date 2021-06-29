@@ -17,15 +17,20 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
-        // 멤버 저장
-        Member member = new Member();
-        member.setId(2L);
-        member.setName("helloB");
-        em.persist(member);
+        try{
+            // em : 컬렉션이라고 여겨도 된다.
+            Member findMember = em.find(Member.class, 1L); // 클래스의 식별자를 주면, 조회 가능
 
-        tx.commit();
+            System.out.println("findMember.id = " + findMember.getId());
+            System.out.println("findMember.name = " + findMember.getName());
+            
+            tx.commit();
 
-        em.close();
+        }catch(Exception e){
+            tx.rollback();
+        }finally {
+            em.close();
+        }
 
         emf.close();
     }
