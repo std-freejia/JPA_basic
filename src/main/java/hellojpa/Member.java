@@ -14,6 +14,11 @@ public class Member {
 
     private String name;
 
+    protected Member(Long id, String name){ // JPA가 다루는 엔티티는 기본 생성자가 필요하다.
+        this.id = id;
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

@@ -19,19 +19,15 @@ public class JpaMain {
         tx.begin();
 
         try{
-            // Member findMember = em.find(Member.class, 2L);
+            // 비영속 상태인 객체 생성
+            Member member1 = new Member(150L, "A");
+            Member member2 = new Member(160L, "B");
 
-            /** JPA은 '클래스(객체)'를 대상으로 쿼리를 실행한다. (테이블 대상이 아니다)  */
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(1)
-                    .setMaxResults(10)
-                    .getResultList(); // 페이징을 위해 시작 순서, 끝 순서를 지정할 수 있다
+            em.persist(member1);
+            em.persist(member2); // 영속성 컨텍스트에 쌓이는 객체
 
-            for(Member member: result){
-                System.out.println("member.name = " + member.getName());
-            }
-
-            tx.commit();
+            System.out.println("==========");
+            tx.commit(); // DB에 insert SQL 실행
 
         }catch(Exception e){
             tx.rollback();
