@@ -22,9 +22,13 @@ public class JpaMain {
 
             Team team = new Team();
             team.setName("teamA");
-            em.persist(team); // 저장
+            em.persist(team); // 팀 저장
 
-            Member member = new Member();
+            Team teamB = new Team();
+            teamB.setName("teamB");
+            em.persist(teamB); // 팀 저장
+
+            Member member = new Member(); // 멤버 하나 생성
             member.setName("member1");
             member.setTeam(team);  // 팀객체를 바로 세팅한다.
             em.persist(member);
@@ -34,6 +38,11 @@ public class JpaMain {
             
             Team findTeam = findMember.getTeam();
             System.out.println("findTeam.getName() = " + findTeam.getName());
+
+            /** 팀을 바꾸고 싶다. */
+            member.setTeam(teamB);
+            System.out.println("팀 소속 바꾸고 나서 팀 이름 = " + member.getTeam().getName());
+
 
             tx.commit(); // DB에 insert SQL 실행
         }catch(Exception e){
