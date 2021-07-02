@@ -1,12 +1,8 @@
 package hellojpa;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
-//@Table(name = "USER") // 테이블명과 엔티티명이 다른 경우, 테이블명을 명시해 줄 수 있다
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,8 +12,14 @@ public class Member {
     @Column(name = "username") // DB 테이블 내의 컬럼명은 name인 것에 매핑된다.
     private String name; // 객체에는 username 으로 쓰고 싶다.
 
-    @Column(name="team_id")
-    private Long teamId;
+//    @Column(name="team_id")
+//    private Long teamId;
+
+    /** 하나의 팀에 여러 회원이 속할 수 있다.
+     * 따라서 멤버가 여럿, 팀이 하나가 된다. 지금 Member 엔티티 입장이니까 @ManyToOne*/
+    @ManyToOne // Member 엔티티 입장 중심으로 적는다.
+    @JoinColumn(name = "team_id") // Team 엔티티에서 참조하는 실제컬럼명 (FK이름을) 적는다.
+    private Team team;
 
     public Long getId() {
         return id;
@@ -35,11 +37,11 @@ public class Member {
         this.name = name;
     }
 
-    public Long getTeamId() {
-        return teamId;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setTeamId(Long teamId) {
-        this.teamId = teamId;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
