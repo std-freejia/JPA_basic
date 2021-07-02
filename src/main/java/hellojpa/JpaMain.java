@@ -19,15 +19,6 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Member findMember = em.find(Member.class, 150L);
-            findMember.setName("hello");
-
-            // 특정 객체만 준영속 상태로 변경
-            em.detach(findMember); // findMember 에 관련된 모든 변경사항이 영속성 컨텍스트에서 삭제된다. JPA가 관리 안함.
-            // 영속성 컨텍스트(1차 캐시)를 모두 초기화
-            em.clear();
-
-            System.out.println("==========");
 
             tx.commit(); // DB에 insert SQL 실행
 
