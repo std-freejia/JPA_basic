@@ -7,7 +7,6 @@ import java.util.Date;
 
 @Entity
 //@Table(name = "USER") // 테이블명과 객체 명이 다른 경우, 테이블명을 명시해 줄 수 있다
-@SequenceGenerator(name = "member_seq_generator", )
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
