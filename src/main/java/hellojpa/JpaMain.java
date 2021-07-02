@@ -26,14 +26,14 @@ public class JpaMain {
 
             Member member = new Member();
             member.setName("member1");
-            member.setTeamId(team.getId());  // 외래키 식별자를 직접 다루게 되는 문제점이 있다
+            member.setTeam(team);  // 팀객체를 바로 세팅한다.
             em.persist(member);
 
-            /** 찾아온 멤버가 어느 팀 소속인지 알고 싶어서, 다시 식별자로 조회 해야하는 문제점 */
+            /** Member 엔티티 필드가 Team 객체를 참조하니까 Team id와 name 에 바로 접근할 수 있다. */
             Member findMember = em.find(Member.class, member.getId());
-
-            Long findTeamId = findMember.getTeamId();
-            Team findTeam = em.find(Team.class, findTeamId); // 계속 id로 끄집어내게 되는 문제.
+            
+            Team findTeam = findMember.getTeam();
+            System.out.println("findTeam.getName() = " + findTeam.getName());
 
             tx.commit(); // DB에 insert SQL 실행
         }catch(Exception e){
