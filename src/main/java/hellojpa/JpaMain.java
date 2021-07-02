@@ -20,6 +20,15 @@ public class JpaMain {
 
         try{
 
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
+
+            Member member = new Member();
+            member.setName("member1");
+            member.setTeamId(team.getId());  // 외래키 식별자를 직접 다루게 되는 문제점이 있다
+            em.persist(member);
+
             tx.commit(); // DB에 insert SQL 실행
         }catch(Exception e){
             tx.rollback();
