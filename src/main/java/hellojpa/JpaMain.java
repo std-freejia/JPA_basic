@@ -19,10 +19,6 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Member member = new Member();
-            member.setUsername("hi2");
-
-            em.persist(member);
 
             tx.commit(); // DB에 insert SQL 실행
         }catch(Exception e){

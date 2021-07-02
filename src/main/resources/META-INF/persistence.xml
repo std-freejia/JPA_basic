@@ -15,7 +15,7 @@
             <property name="hibernate.show_sql" value="true"/> <!-- 실행한 SQL 출력 -->
             <property name="hibernate.format_sql" value="true"/> <!-- 출력 인덴트 -->
             <property name="hibernate.use_sql_comments" value="true"/> <!-- 쿼리 설명 -->
-            <property name="hibernate.hbm2ddl.auto" value="none" />
+            <property name="hibernate.hbm2ddl.auto" value="create" />
         </properties>
     </persistence-unit>
 </persistence>
