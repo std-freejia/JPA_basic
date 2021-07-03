@@ -21,15 +21,16 @@ public class JpaMain {
         try{
 
             /** [양방향 연관관계 주의점]  항상 Team, Member 양쪽에 값을 넣자. [연관관계 메소드 구현하 ]  */
-            
-            Team team = new Team();
-            team.setName("teamA");
-            em.persist(team); // 팀 저장
 
             Member member = new Member();
             member.setName("jpamember");
-            member.changeTeam(team); // 팀을 지정
+            //member.changeTeam(team); // 연관관계 편의 메소드
             em.persist(member);
+
+            Team team = new Team();
+            team.setName("teamA");
+            team.addMember(member); // 연관관계 편의 메소드
+            em.persist(team); // 팀 저장
 
 
             em.flush(); // 쓰기지연 SQL 저장소에 있던 쿼리들을 전부 실행한다. (변경 감지된 내용들을 전부 DB에 쿼리 실행하여 반영)

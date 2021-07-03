@@ -18,6 +18,15 @@ public class Member {
     @JoinColumn(name = "team_id") // Team 엔티티에서 참조하는 실제컬럼명 (FK이름을) 적는다.
     private Team team;
 
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", team=" + team +
+                '}';
+    }
+
     /** [연관관계 편의 메소드]
      '양방향' 연관관계니까, Team에 참조된 Member도 신경써야 한다.
      Member가 속한 Team을 세팅 해 줄 때, 반대편 Team에도 member가 속함을 세팅하자.
@@ -27,6 +36,7 @@ public class Member {
         this.team = team;
         team.getMembers().add(this); // 멤버에 '나 자신'을 추가한다.
     } */
+
 
     public Long getId() {
         return id;
@@ -51,4 +61,15 @@ public class Member {
     public void setTeam(Team team) {
         this.team = team;
     }
+
+    /**
+     * [무한루프 방지 팁]
+     * lombok에서 toString 만드는것 쓰지말기. (양방향 연관관계 걸려 있을 때 골치아픔)
+     * 컨트롤러에서 절대 엔티티를 바로 반환하지 말기.
+     * 왜냐하면, JSON 생성 라이브러리에서, 무한루프 생길 수 있다.
+     * 엔티티는 변경될 수 있는 존재다. (연관관계 또는 필드 등..)
+     * 엔티티를 json으로 api를 통해 바로 반환하면 API 스펙이 변경되어 버린다. API사용 하는 입장에서 당황.
+     *
+     * 엔티티는 꼭 DTO(값만 있는)로 변환하여 컨트롤러에서 반환하자.
+     */
 }
