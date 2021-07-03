@@ -24,25 +24,21 @@ public class JpaMain {
             team.setName("teamA");
             em.persist(team); // 팀 저장
 
-            Team teamB = new Team();
-            teamB.setName("teamB");
-            em.persist(teamB); // 팀 저장
-
             Member member = new Member(); // 멤버 하나 생성
             member.setName("member1");
             member.setTeam(team);  // 팀객체를 바로 세팅한다.
             em.persist(member);
 
+            em.flush(); /** 쓰기지연 SQL 저장소에 있던 쿼리들을 전부 실행한다. (변경 감지된 내용들을 전부 DB에 쿼리 실행하여 반영) */
+            em.clear(); /** 영속성 컨텍스트를 초기화 한다. */
+
             /** Member 엔티티 필드가 Team 객체를 참조하니까 Team id와 name 에 바로 접근할 수 있다. */
-            Member findMember = em.find(Member.class, member.getId());
-            
-            Team findTeam = findMember.getTeam();
-            System.out.println("findTeam.getName() = " + findTeam.getName());
+            Member findMember = em.find(Member.class, member.getId()); // 멤버 가져오기
+            List<Member> members = findMember.getTeam().getMembers();  // 멤버가 속한 팀의 멤버들을 가져오기
 
-            /** 팀을 바꾸고 싶다. */
-            member.setTeam(teamB);
-            System.out.println("팀 소속 바꾸고 나서 팀 이름 = " + member.getTeam().getName());
-
+            for (Member m : members) {
+                System.out.println("m = " + m.getName());
+            }
 
             tx.commit(); // DB에 insert SQL 실행
         }catch(Exception e){
