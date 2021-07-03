@@ -20,14 +20,20 @@ public class JpaMain {
 
         try{
 
-            Member member = new Member();
-            member.setName("hi");
-            em.persist(member); // 멤버 하나 저장
-
+            /** 현재 Team과 Member 는 양방향 연관관계가 설정되어 있고, 연관관계의 주인은 Member엔티티다.
+             *
+             * 1. 연관관계의 주인이 아닌, Team 을 먼저 생성하여 persist()
+             * 2. 연관관계의 주인 Member에 Team을 set하자.
+             * */
             Team team = new Team();
             team.setName("teamA");
-            team.getMembers().add(member);
+            // team.getMembers().add(member);
             em.persist(team); // 팀 저장
+
+            Member member = new Member();
+            member.setName("jpamember");
+            member.setTeam(team); // 팀을 지정
+            em.persist(member);
 
             /** 연관관계의 주인인 Member 엔티티의 team에는, team_id 가 null 이 되는 문제 발생!
              * 왜냐하면 team.getMembers().add(member); 가 불가능한 코드이기 때문이다.
