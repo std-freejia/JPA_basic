@@ -4,6 +4,52 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+public class Team {
+
+    @Id @GeneratedValue
+    @Column(name="team_id")
+    private Long id;
+    private String name;
+
+    @OneToMany(mappedBy = "team") // 일대다 매핑에서, 상대팀 엔티티의 어느 필드를(칼럼을) 참조하는지 적는다.
+    private List<Member> members = new ArrayList<>();
+
+    /**
+     [중요 : 연관관계의 주인은 양방향 연관관계에서 다루는 개념이다.]
+     연관관계의 주인만이 외래키를 관리할 수 있다.
+     주인이 아닌 쪽은 읽기만 가능하다. 그리고 mappedBy 속성으로 주인을 지정해줘야 한다.
+
+     [중요 : 외래키를 사용하는 쪽이 연관관계의 주인이다!]
+     Member.team이 연관관계의 주인이다.
+     매핑 당하는 Team엔티티의 members에 mappedBy속성을 지정하자.
+     mappedBy속성에는 자신을 매핑하고 있는 주인엔티티의 칼럼명을 적어준다. (Member의 team)
+     */
+    public List<Member> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<Member> members) {
+        this.members = members;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
 /**
  [중요!] [ 양방향 연관관계 ] mappedBy 의미
 
@@ -32,7 +78,7 @@ import java.util.List;
  주인이 아니라면, mappedBy 속성으로 주인을 지정해줘야 한다.
 
  [중요 : 외래키를 사용하는 쪽이 연관관계의 주인이다!]
- Member엔티티는 Team을 참조한다. 
+ Member엔티티는 Team을 참조한다.
  즉, Member.team이 연관관계의 주인이다.
  매핑 당하는 Team엔티티의 members에 mappedBy속성을 지정하자.
  mappedBy속성에는 자신을 매핑하고 있는 주인엔티티의 칼럼명을 적어준다. (Member의 team)
@@ -45,38 +91,4 @@ import java.util.List;
  Member엔티티는 Team엔티티를 FK로서 참조하고 있다.
  이 상황에서는 Member가 외래키를 사용하고 있으므로 연관관계의 주인이 되어야 한다.
  */
-@Entity
-public class Team {
-
-    @Id @GeneratedValue
-    @Column(name="team_id")
-    private Long id;
-    private String name;
-
-    @OneToMany(mappedBy = "team") // 일대다 매핑에서, 상대팀 엔티티의 어느 필드를(칼럼을) 참조하는지 적는다.
-    private List<Member> members = new ArrayList<>();
-
-    public List<Member> getMembers() {
-        return members;
-    }
-
-    public void setMembers(List<Member> members) {
-        this.members = members;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
