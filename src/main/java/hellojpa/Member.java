@@ -12,9 +12,6 @@ public class Member {
     @Column(name = "username") // DB 테이블 내의 컬럼명은 name인 것에 매핑된다.
     private String name; // 객체에는 username 으로 쓰고 싶다.
 
-//    @Column(name="team_id")
-//    private Long teamId;
-
     /** 하나의 팀에 여러 회원이 속할 수 있다.
      * 따라서 멤버가 여럿, 팀이 하나가 된다. 지금 Member 엔티티 입장이니까 @ManyToOne*/
     @ManyToOne // Member 엔티티 입장 중심으로 적는다.
