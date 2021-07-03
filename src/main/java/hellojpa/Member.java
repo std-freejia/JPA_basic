@@ -22,11 +22,11 @@ public class Member {
      '양방향' 연관관계니까, Team에 참조된 Member도 신경써야 한다.
      Member가 속한 Team을 세팅 해 줄 때, 반대편 Team에도 member가 속함을 세팅하자.
      연관관계가 설정된 필드에 대해 엉키지 않도록 setter와는 구분되는 이름을 짓자.
-     * */
+
     public void changeTeam(Team team){
         this.team = team;
         team.getMembers().add(this); // 멤버에 '나 자신'을 추가한다.
-    }
+    } */
 
     public Long getId() {
         return id;
@@ -48,7 +48,7 @@ public class Member {
         return team;
     }
 
-//    public void setTeam(Team team) {
-//        this.team = team;
-//    }
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 }

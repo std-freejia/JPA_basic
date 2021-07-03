@@ -15,6 +15,12 @@ public class Team {
     @OneToMany(mappedBy = "team") // 일대다 매핑에서, 상대팀 엔티티의 어느 필드를(칼럼을) 참조하는지 적는다.
     private List<Member> members = new ArrayList<>();
 
+    /** 연관관계 편의 메소드 Team이나 Member 한 쪽에만 구현하기! */
+    public void addMember(Member member){
+        member.setTeam(member.getTeam());
+        members.add(member);
+   }
+
     /**
      [중요 : 연관관계의 주인은 양방향 연관관계에서 다루는 개념이다.]
      연관관계의 주인만이 외래키를 관리할 수 있다.
