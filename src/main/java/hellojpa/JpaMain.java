@@ -20,14 +20,10 @@ public class JpaMain {
 
         try{
 
-            /** 현재 Team과 Member 는 양방향 연관관계가 설정되어 있고, 연관관계의 주인은 Member엔티티다.
-             *
-             * 1. 연관관계의 주인이 아닌, Team 을 먼저 생성하여 persist()
-             * 2. 연관관계의 주인 Member에 Team을 set하자.
-             * */
+            /** [양방향 연관관계 주의점]  항상 Team, Member 양쪽에 값을 넣자.  */
+            
             Team team = new Team();
             team.setName("teamA");
-            // team.getMembers().add(member);
             em.persist(team); // 팀 저장
 
             Member member = new Member();
@@ -35,14 +31,23 @@ public class JpaMain {
             member.setTeam(team); // 팀을 지정
             em.persist(member);
 
-            /** 연관관계의 주인인 Member 엔티티의 team에는, team_id 가 null 이 되는 문제 발생!
-             * 왜냐하면 team.getMembers().add(member); 가 불가능한 코드이기 때문이다.
-             * team.getMembers() 는 읽기 전용 칼럼이다. add할 수 없다.
-             * mappedBy 된 칼럼은 읽기 전용이기 때문이다.
-             * */
+            /*
+            team.getMembers().add(member);
 
-            em.flush(); /** 쓰기지연 SQL 저장소에 있던 쿼리들을 전부 실행한다. (변경 감지된 내용들을 전부 DB에 쿼리 실행하여 반영) */
-            em.clear(); /** 영속성 컨텍스트를 초기화 한다. */
+            em.flush(); // 쓰기지연 SQL 저장소에 있던 쿼리들을 전부 실행한다. (변경 감지된 내용들을 전부 DB에 쿼리 실행하여 반영)
+            em.clear(); // 영속성 컨텍스트를 초기화 한다.
+            */
+
+            // 플러시 하지 않았으니까, team은 실제 DB에 저장되어 있지 않다. 아직 영속성 컨텍스트에만 존재한다.
+            //
+            Team findTeam = em.find(Team.class, team.getId()); // 1차 캐시. 영속성 컨텍스트에서 가져온것.
+            List<Member> members = findTeam.getMembers();
+
+            System.out.println("==========");
+            for (Member m : members) {
+                System.out.println("m = " + m.getName());
+            }
+            System.out.println("==========");
 
 
             tx.commit(); // DB에 insert SQL 실행
