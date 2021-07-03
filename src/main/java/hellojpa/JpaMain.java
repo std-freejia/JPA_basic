@@ -20,7 +20,7 @@ public class JpaMain {
 
         try{
 
-            /** [양방향 연관관계 주의점]  항상 Team, Member 양쪽에 값을 넣자.  */
+            /** [양방향 연관관계 주의점]  항상 Team, Member 양쪽에 값을 넣자. [연관관계 메소드 구현하 ]  */
             
             Team team = new Team();
             team.setName("teamA");
@@ -28,18 +28,13 @@ public class JpaMain {
 
             Member member = new Member();
             member.setName("jpamember");
-            member.setTeam(team); // 팀을 지정
+            member.changeTeam(team); // 팀을 지정
             em.persist(member);
 
-            /*
-            team.getMembers().add(member);
 
             em.flush(); // 쓰기지연 SQL 저장소에 있던 쿼리들을 전부 실행한다. (변경 감지된 내용들을 전부 DB에 쿼리 실행하여 반영)
             em.clear(); // 영속성 컨텍스트를 초기화 한다.
-            */
 
-            // 플러시 하지 않았으니까, team은 실제 DB에 저장되어 있지 않다. 아직 영속성 컨텍스트에만 존재한다.
-            //
             Team findTeam = em.find(Team.class, team.getId()); // 1차 캐시. 영속성 컨텍스트에서 가져온것.
             List<Member> members = findTeam.getMembers();
 
